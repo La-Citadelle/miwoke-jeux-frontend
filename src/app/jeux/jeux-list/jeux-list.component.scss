@@ -1,0 +1,48 @@
+/*!
+ * Copyright (c) Akveo 2019. All Rights Reserved.
+ * Licensed under the Single Application / Multi Application License.
+ * See LICENSE_SINGLE_APP / LICENSE_MULTI_APP in the 'docs' folder for license information on type of purchased license.
+ */
+
+@import '../../@theme/styles/themes';
+
+@include nb-install-component() {
+  .partie-container:first-child {
+    margin-bottom: nb-theme(card-margin-bottom);
+  }
+  
+  nb-card-header {
+    display: flex;
+    align-items: center;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+  }
+  
+  .single-view-button {
+    .nb-square {
+      font-size: 1.25rem;
+    }
+
+    @include nb-ltr {
+      margin-left: auto;
+    }
+  }
+  
+  .stats {
+    margin: 0.5rem;
+
+    > .caption {
+      display: block;
+    }
+  }
+
+  .chart-card nb-card-header {
+    display: flex;
+    align-items: center;
+    padding-top: nb-theme(card-header-with-select-padding-top);
+    padding-bottom: nb-theme(card-header-with-select-padding-bottom);
+
+    // prevents double border from chart yAxisSplitLine
+    margin-bottom: -1px;
+  }
+}

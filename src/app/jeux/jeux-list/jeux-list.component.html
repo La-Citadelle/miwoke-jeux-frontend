@@ -1,0 +1,64 @@
+<!--
+  ~ Copyright (c) Akveo 2019. All Rights Reserved.
+  ~ Licensed under the Single Application / Multi Application License.
+  ~ See LICENSE_SINGLE_APP / LICENSE_MULTI_APP in the 'docs' folder for license information on type of purchased license.
+  -->
+
+<div class="partie-container row">
+  <div class="partie-container col-12">
+    <nb-card>
+      <nb-card-header>
+        Liste des parties
+        <nb-actions size="medium" fullWidth *nbIsGranted="['edit', 'parties']" (click)="addNewPartie()">
+          <nb-action>
+            <nb-icon class="action-icon" icon="plus-circle-outline"></nb-icon>
+            <span>Ajouter</span>
+          </nb-action>
+        </nb-actions>
+      </nb-card-header>
+      <nb-card-body>
+      <nb-accordion>
+        <nb-accordion-item *ngFor="let partie of parties | async">
+          <nb-accordion-item-header>
+            <span class="stats" *ngIf="partie.status==1">
+              <button nbButton size="small" (click)='loadPartie(partie._id)' status="success">
+                Jouer
+              </button>
+            </span>
+            <div *ngIf="partie.status==0">
+              <span class="stats" >
+                <button nbButton size="small" status="primary" disabled>
+                  A venir
+                </button>
+              </span>
+              <span class="stats" >
+                <button nbButton
+                        *nbIsGranted="['edit', 'parties']"
+                        size="small"
+                        status="primary"
+                        (click)="activatePartie(partie)">
+                  Activer
+                </button>
+              </span>
+            </div>
+            <!-- <span class="stats">
+              <button nbButton
+                      *nbIsGranted="['edit', 'parties']"
+                      size="small"
+                      status="primary"
+                      (click)="updatePartie(partie)">
+                Modifier
+              </button>
+            </span> -->
+            {{partie.name}}
+          </nb-accordion-item-header>
+          <nb-accordion-item-body>
+            {{ partie.players ? partie.players.length : '0' }} joueurs
+            <li *ngFor="let player of partie.players" partie.players> {{ player.login }}</li>
+          </nb-accordion-item-body>
+        </nb-accordion-item>
+      </nb-accordion>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

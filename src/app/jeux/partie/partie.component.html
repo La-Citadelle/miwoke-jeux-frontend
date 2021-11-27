@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-12" *nbIsGranted="['edit', 'parties']">
+    <nb-card>
+      <nb-card-body>
+        <nb-actions size="medium" fullWidth>
+          <nb-action (click)="addQuestion()" *ngIf="(partie | async)?.status==1">
+            <nb-icon class="action-icon" icon="plus-circle-outline"></nb-icon>
+            <span>Nouvelle question</span>
+          </nb-action>
+          <nb-action (click)="addPoint()">
+            <nb-icon class="action-icon" icon="arrow-up-outline"></nb-icon>
+            <span>Bonne réponse</span>
+          </nb-action>
+          <nb-action (click)="removeLife()">
+            <nb-icon class="action-icon" icon="arrow-down-outline"></nb-icon>
+            <span>Mauvaise réponse</span>
+          </nb-action>
+          <nb-action *ngIf="(partie | async)?.status==2">
+            <nb-icon class="action-icon" icon="play-circle-outline"></nb-icon>
+            <span>Relancer la partie</span>
+          </nb-action>
+          <nb-action *ngIf="(partie | async)?.status==1">
+            <nb-icon class="action-icon" icon="stop-circle-outline"></nb-icon>
+            <span>Finir la partie</span>
+          </nb-action>
+        </nb-actions>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-4">
+    Liste des joueurs : 
+    <li *ngFor="let player of (partie | async)?.players">{{ player.login }} : {{ player.vies }} vies | {{ player.points ? player.points : 0 }} points</li>
+  </div>
+  <div class="col-4">
+    <button nbButton
+            *ngIf="(partie | async)?.status==1 && !(partie | async)?.questions"
+            size="small" disabled>
+      En attente
+    </button>
+    <button nbButton
+            *ngIf="(partie | async)?.status==1 && (partie | async)?.questions && !(partie | async)?.isAwnsering"
+            size="small"
+            (click)="awnserQuestion()"
+            status="success">
+      Répondre
+    </button>
+    <button nbButton
+            *ngIf="(partie | async)?.status==1 && (partie | async)?.isAwnsering" 
+            size="small"
+            disabled>
+      Réponse en cours
+    </button>
+    <div *ngIf="(partie | async)?.status==2">Cette partie est terminée</div>
+  </div>
+  <div class="col-4">
+  Historique des réponses :
+  <li *ngFor="let question of (partie | async)?.questions">
+    {{ question?.order }} - 
+    {{ question?.player?.login ? question.player.login : 'en attente de réponse' }}
+  </li>
+  </div>
+
+</div>

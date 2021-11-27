@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+  front-miwoke:
+    container_name: 'front-miwoke'
+    build: .
+    ports:
+      - 5100:4200
+    networks:
+      - miwoke
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.miwoke-http.entrypoints=web"
+      - "traefik.http.routers.miwoke-http.rule=Host(`miwoke.remouen.ca`)"
+      - "traefik.http.routers.miwoke-http.middlewares=miwoke-https"
+      - "traefik.http.middlewares.miwoke-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.miwoke.entrypoints=websecure"
+      - "traefik.http.routers.miwoke.rule=Host(`miwoke.remouen.ca`)"
+      - "traefik.http.routers.miwoke.tls=true"
+      - "traefik.http.routers.miwoke.tls.certresolver=aoefrance"
+      - "traefik.docker.network=web"
+networks:
+  miwoke:
+    external: true
