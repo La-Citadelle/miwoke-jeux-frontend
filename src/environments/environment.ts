@@ -9,7 +9,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  discordAuthLogin: 'https://discord.com/api/oauth2/authorize?client_id=883157973487214662&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fauth%2Fcallback&response_type=token&scope=identify%20email',
+  discordAuthLogin: 'https://discord.com/api/oauth2/authorize?client_id=883157973487214662&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fauth%2Fcallback&response_type=token&scope=identify',
   production: false,
   apiUrl: 'http://localhost:3001/api',
   socketUrl: 'http://localhost:3001',

@@ -44,21 +44,6 @@
   </div>
 
   <div class="form-control-group">
-    <label for="input-email">Email address:</label>
-    <input  nbInput
-            fullWidth
-            fieldSize="large"
-            id="input-email"
-            formControlName="email"
-            [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
-            [attr.aria-invalid]="email.invalid && email.touched ? true : null"
-            placeholder="Email address"
-            disabled>
-    <ngx-validation-message label="Email address" [showPattern]="email?.hasError('pattern') && email.touched"
-      [showRequired]="email?.errors?.required && email.touched"></ngx-validation-message>
-  </div>
-
-  <div class="form-control-group">
     <label for="input-password">Password:</label>
     <input  nbInput
             fullWidth

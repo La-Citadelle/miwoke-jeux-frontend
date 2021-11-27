@@ -8,7 +8,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NB_AUTH_OPTIONS, NbAuthSocialLink, NbAuthService, NbAuthResult } from '@nebular/auth';
 import { getDeepFromObject } from '../../helpers';
-import { EMAIL_PATTERN } from '../constants';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { InitUserService } from '../../../@theme/services/init-user.service';
@@ -28,7 +27,6 @@ export class NgxRegisterComponent implements OnInit, OnDestroy {
   minLength: number = this.getConfigValue('forms.validation.password.minLength');
   maxLength: number = this.getConfigValue('forms.validation.password.maxLength');
   isFullNameRequired: boolean = this.getConfigValue('forms.validation.fullName.required');
-  isEmailRequired: boolean = this.getConfigValue('forms.validation.email.required');
   isPasswordRequired: boolean = this.getConfigValue('forms.validation.password.required');
   redirectDelay: number = this.getConfigValue('forms.register.redirectDelay');
   showMessages: any = this.getConfigValue('forms.register.showMessages');
@@ -59,20 +57,17 @@ export class NgxRegisterComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         this.user = user;
         this.registerForm.patchValue({
-          email: user.email,
           fullName: user.username,
           avatar: user.avatar,
           id_discord: user.id
         });
         this.tryLogin({
           id_discord: user.id,
-          email: user.email,
         });
     });
   }
 
   get login() { return this.registerForm.get('fullName'); }
-  get email() { return this.registerForm.get('email'); }
   get password() { return this.registerForm.get('password'); }
   get confirmPassword() { return this.registerForm.get('confirmPassword'); }
   get terms() { return this.registerForm.get('terms'); }
@@ -86,10 +81,6 @@ export class NgxRegisterComponent implements OnInit, OnDestroy {
     ];
     this.isFullNameRequired && loginValidators.push(Validators.required);
 
-    const emailValidators = [
-      Validators.pattern(EMAIL_PATTERN),
-    ];
-    this.isEmailRequired && emailValidators.push(Validators.required);
 
     const passwordValidators = [
       Validators.minLength(this.minLength),
@@ -99,7 +90,6 @@ export class NgxRegisterComponent implements OnInit, OnDestroy {
 
     this.registerForm = this.fb.group({
       fullName: this.fb.control('', [...loginValidators]),
-      email: this.fb.control('', [...emailValidators]),
       password: this.fb.control('', [...passwordValidators]),
       confirmPassword: this.fb.control('', [...passwordValidators]),
       terms: this.fb.control(''),
