@@ -4,8 +4,6 @@ services:
   front-miwoke:
     container_name: 'front-miwoke'
     build: .
-    ports:
-      - 5100:4200
     networks:
       - miwoke
     labels:
