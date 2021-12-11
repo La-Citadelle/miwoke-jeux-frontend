@@ -6,6 +6,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NbAccessChecker, NbRoleProvider } from '@nebular/security';
 import { NbDialogService } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { Partie } from '../../@core/interfaces/jeux/partie';
@@ -20,17 +21,22 @@ import { CreatePartieDialogComponent } from './create-partie-dialog/create-parti
 export class JeuxListComponent implements OnInit {
 
   parties: Observable<Partie[]>;
+  role;
   
   constructor(private dialogService: NbDialogService,
               private router: Router,
+              private roleProvider: NbRoleProvider,
+              public accessChecker: NbAccessChecker,
               private jeuxService: JeuxService) {}
   
   async ngOnInit() {
     this.parties = this.jeuxService.parties;
+    this.role = await this.roleProvider.getRole().toPromise();
+    
   }
 
   async addNewPartie() {
-    const dataPartie = { status: 0, isAwnsering: false, waitingAwnser: false};
+    const dataPartie = { status: 0, isAwnsering: false, waitingAwnser: false, players: []};
     this.dialogService.open(CreatePartieDialogComponent)
       .onClose.subscribe(name => name && this.jeuxService.addPartie({name, ...dataPartie}));
   }
@@ -45,5 +51,9 @@ export class JeuxListComponent implements OnInit {
 
   updatePartie(event) {
     this.router.navigate([`jeux/partie/edit/${event._id}`]);
+  }
+
+  canJoinPartie(partie) {
+    return partie.status==1 && partie.players.length <= 0;
   }
 }

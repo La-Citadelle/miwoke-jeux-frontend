@@ -28,8 +28,22 @@
     </nb-card>
   </div>
   <div class="col-4">
-    Liste des joueurs : 
-    <li *ngFor="let player of (partie | async)?.players">{{ player.login }} : {{ player.vies }} vies | {{ player.points ? player.points : 0 }} points</li>
+    Liste des joueurs :
+    <div *ngFor="let player of (partie | async)?.players">
+      <li *ngIf="player.vies!==0">
+        <span>
+          {{ player.login }} :  {{ player.vies }} vies | {{ player.points ? player.points : 0 }} points
+        </span>
+      </li>
+    </div>
+    Éliminés :
+    <div *ngFor="let player of (partie | async)?.players">
+      <li *ngIf="player.vies===0">
+        <span>
+          Éliminés - {{ player.login }} : {{ player.points ? player.points : 0 }} points
+        </span>
+      </li>
+    </div>
   </div>
   <div class="col-4">
     <button nbButton

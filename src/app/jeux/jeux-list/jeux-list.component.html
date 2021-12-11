@@ -20,9 +20,14 @@
       <nb-accordion>
         <nb-accordion-item *ngFor="let partie of parties | async">
           <nb-accordion-item-header>
-            <span class="stats" *ngIf="partie.status==1">
+            <span class="stats" *ngIf="canJoinPartie(partie) || role==='admin'">
               <button nbButton size="small" (click)='loadPartie(partie._id)' status="success">
                 Jouer
+              </button>
+            </span>
+            <span class="stats" *ngIf="partie.players.length > 0">
+              <button nbButton size="small" status="warning">
+                Complet
               </button>
             </span>
             <div *ngIf="partie.status==0">

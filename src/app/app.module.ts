@@ -26,6 +26,10 @@ import {
 
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
+import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
+import { authSettings } from './@auth/access.settings';
+import { RoleProvider } from './@auth/role.provider';
+import { NbTokenLocalStorage } from '@nebular/auth';
 
 const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
 
@@ -53,7 +57,16 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
     ThemeModule.forRoot(),
   ],
   bootstrap: [AppComponent],
-  providers: [],
+  providers: [
+    NbSecurityModule.forRoot({
+      accessControl: authSettings,
+    }).providers,
+    {
+      provide: NbRoleProvider, useClass: RoleProvider,
+    },
+    {
+      provide: NbTokenLocalStorage, useClass: NbTokenLocalStorage,
+    },],
 })
 export class AppModule {
 }

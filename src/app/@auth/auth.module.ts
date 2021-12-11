@@ -85,15 +85,6 @@ export function filterInterceptorRequest(req: HttpRequest<any>): boolean {
   ],
   exports: [...PIPES],
   providers: [
-    NbSecurityModule.forRoot({
-      accessControl: authSettings,
-    }).providers,
-    {
-      provide: NbRoleProvider, useClass: RoleProvider,
-    },
-    {
-      provide: NbTokenLocalStorage, useClass: NbTokenLocalStorage,
-    },
   ],
 })
 export class AuthModule {
